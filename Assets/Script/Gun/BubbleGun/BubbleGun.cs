@@ -1,12 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class BubbleGun : GunBase
 {
-    public float frequency = 0.02f;
-
     public float speedMin;
     public float speedMax;
 
@@ -26,12 +23,11 @@ public class BubbleGun : GunBase
     public AnimationCurve sizeFactor;
     public AnimationCurve amplitudeFactor;
 
-    private float _gap = 0;
-
     // Start is called before the first frame update
     void Start()
     {
     }
+
 
     // Update is called once per frame
     void Update()
@@ -45,7 +41,8 @@ public class BubbleGun : GunBase
         }
     }
 
-    public override void Fire()
+
+    protected override void Fire()
     {
         Bubble.CreateBubble(this);
     }

@@ -12,9 +12,10 @@ public class Explosion : MonoBehaviour
         => _pool ??= new BufferPool<Explosion>(Resources.Load<GameObject>($"Explosion"));
 
 
+    private float _size;
+    
     private void OnEnable()
     {
-
 
         TimerInterval.Create(0.05f, () =>
         {
@@ -22,17 +23,14 @@ public class Explosion : MonoBehaviour
         });
     }
 
-    private void OnDisable()
-    {
-        
-    }
-
-
     public static void Create(Vector2 pos, float size)
     {
         var ex = Pool.Create();
         ex.transform.position = pos;
         ex.transform.localScale = Vector3.one * size;
+        
+        ex._size = size;
+        // TODO: 播放音效
     }
 
 
@@ -52,6 +50,19 @@ public class Explosion : MonoBehaviour
             bubble.Destroy();
             // 爆炸预制体
             Create(bubble.transform.position, bubble.size * 1.3f);
+        }
+
+        if (other.CompareTag("Ice"))
+        {
+            var ice = other.GetComponent<Ice>();
+            ice.Size -= _size * 0.3f;
+            
+        }
+
+        if (other.CompareTag("Rock"))
+        {
+            var rock = other.GetComponent<Rock>();
+            rock.Hp -= _size * 0.5f;
         }
     }
 }
