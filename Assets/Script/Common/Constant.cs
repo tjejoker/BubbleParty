@@ -14,4 +14,8 @@ public class Constant
     
     
     public static readonly string PlayerPath = "Player/player";
+    public static readonly string PlayerImgPath = "PlayerImg/玩家";
+    public static readonly string PlayerHeadImgPath = "PlayerHeadImg/玩家";
+    
+    
 }

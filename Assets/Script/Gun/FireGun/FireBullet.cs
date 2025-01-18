@@ -19,6 +19,7 @@ public class FireBullet : BulletBase<FireBullet>
     public override void Run(float dt)
     {
         transform.position += _direction * (_speed * dt);
+        transform.position = new Vector3(transform.position.x, transform.position.y, 0);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -27,12 +28,21 @@ public class FireBullet : BulletBase<FireBullet>
         {
             var bubble = other.GetComponent<Bubble>();
 
-            Explosion.Create(bubble.transform.position, bubble.size);
+            Explosion.Create(bubble.transform.position, bubble.size + 2.0f);
             bubble.Release();
+            Release();
         }
 
         if (other.CompareTag("Rock"))
         {
+            Release();
+        }
+
+        if (other.CompareTag("Player"))
+        {
+            Player player = other.GetComponent<Player>();
+            player.hp -= 2;
+            Explosion.Create(player.transform.position, player.bubbleDeBuff * 0.3f);
             Release();
         }
     }

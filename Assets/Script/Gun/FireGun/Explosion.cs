@@ -17,20 +17,26 @@ public class Explosion : MonoBehaviour
     private void OnEnable()
     {
 
-        TimerInterval.Create(0.05f, () =>
-        {
-            Pool.Destroy(this);
-        });
+        // TimerInterval.Create(0.05f, () =>
+        // {
+        //     Pool.Destroy(this);
+        // });
+    }
+
+    public void Destroy()
+    {
+        Pool.Destroy(this);
     }
 
     public static void Create(Vector3 pos, float size)
     {
         var ex = Pool.Create();
-        ex.transform.position = pos;
+        ex.transform.position = new Vector3(pos.x, pos.y, 0);
         ex.transform.localScale = Vector3.one * size;
         
         ex._size = size;
         // TODO: 播放音效
+        AudioManager.Instance.PlayEffect(ResSvc.Instance.GetAudioClip("爆炸/爆炸1"));
     }
 
 
@@ -40,12 +46,15 @@ public class Explosion : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             var player = other.GetComponent<Player>();
-            player.hp -= _size * 0.1f;
+            player.hp -=  0.1f * player.bubbleDeBuff;
+            // 爆炸预制体
             if (player.bubbleDeBuff > 0.5f)
             {
-                Create(player.transform.position, player.bubbleDeBuff);
+                float debuff = player.bubbleDeBuff;
                 player.bubbleDeBuff = 0;
+                Create(player.transform.position, debuff*0.3f);
             }
+            
         }
         
         if (other.CompareTag("Bubble"))

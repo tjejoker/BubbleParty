@@ -8,7 +8,6 @@ public class PlayerUI : MonoBehaviour
 {
     public Image img_HP;
     public Text txt_HP;
-    public float hp = 100;
 
     private void Start()
     {
@@ -18,17 +17,12 @@ public class PlayerUI : MonoBehaviour
 
     public void SetText(float hpPercent)
     {
-        txt_HP.text = hpPercent.ToString() + " %";
+        txt_HP.text = Math.Round( hpPercent,2).ToString() + " %";
     }
 
     public void SetHP(float hp)
     {
         img_HP.fillAmount = 1 - (hp / 100f);
     }
-
-    private void Update()
-    {
-        SetText(hp);
-        SetHP(hp);
-    }
+    
 }

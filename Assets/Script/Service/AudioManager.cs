@@ -6,13 +6,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
     public AudioSource bgmSource;
     public AudioSource effectSource;
-    
+    public List<AudioSource> effectSources;
     public static AudioManager Instance;
 
     public void Init()
@@ -38,6 +39,21 @@ public class AudioManager : MonoBehaviour
 
     public void PlayEffect(AudioClip clip)
     {
-        effectSource.PlayOneShot(clip);
+        foreach (var item in effectSources)
+        {
+            if (!item.isPlaying || item.clip == clip)
+            {
+                item.clip = clip;
+                item.Play();
+                return;
+            }
+        }
+
+        AudioSource source = effectSource.AddComponent<AudioSource>();
+        source.clip = clip;
+        source.Play();
+        effectSources.Add(source);
     }
+    
+    
 }

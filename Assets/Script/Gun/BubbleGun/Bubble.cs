@@ -40,6 +40,7 @@ public class Bubble : BulletBase<Bubble>
         //     Debug.Log(_breakAnimLength);
         //     break;
         // }
+        transform.position = new Vector3(transform.position.x, transform.position.y, 0);
     }
 
     public void Initialization( BubbleGun gun)
@@ -77,6 +78,7 @@ public class Bubble : BulletBase<Bubble>
 
         size = _size * _sizeFactor.Evaluate(t);
         transform.position += v + h;
+        transform.position = new Vector3(transform.position.x, transform.position.y, 0);
         transform.localScale = s;
 
         if (_time > _lifeTime - _breakAnimLength && !animator.GetCurrentAnimatorStateInfo(0).IsName("Break"))

@@ -21,7 +21,7 @@ public class Ice : MonoBehaviour
         {
             _size = value;
             transform.localScale = new Vector3(_size, _size, _size);
-
+            
             if (_size < 0.1f)
             {
                 Destroy();
@@ -29,13 +29,21 @@ public class Ice : MonoBehaviour
         }
     }
 
+
+    private void Update()
+    {
+        Size -= Time.deltaTime;
+    }
+
     public static void Create(Vector3 position, float size)
     {
         var ice = Pool.Create();
-        ice.transform.position = position;
+        ice.transform.position = new Vector3(position.x, position.y, 0);
         ice.transform.localScale = new Vector3(size, size, size);
         
         ice.Size = size;
+        // TODO: 播放音效
+        AudioManager.Instance.PlayEffect(ResSvc.Instance.GetAudioClip("结冰/结冰"));
     }
 
 

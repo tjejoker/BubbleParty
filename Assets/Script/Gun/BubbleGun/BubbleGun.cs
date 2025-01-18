@@ -28,6 +28,7 @@ public class BubbleGun : GunBase
     // Start is called before the first frame update
     void Start()
     {
+        
     }
 
 
@@ -35,9 +36,10 @@ public class BubbleGun : GunBase
     {
         if(IsColdDown)
             return;
-        
+        int index = Random.Range(1, 4);
+        AudioManager.Instance.PlayEffect(ResSvc.Instance.GetAudioClip("泡泡/泡泡" + index));
         IsColdDown = true;
-        var b = Bubble.Create(shootPos.position, shootPos.rotation);
+        var b = Bubble.Create(new Vector3(shootPos.position.x,shootPos.position.y,0), shootPos.rotation);
         b.Initialization(this);
         TimerInterval.Create(frequency, () => {IsColdDown = false; });
     }

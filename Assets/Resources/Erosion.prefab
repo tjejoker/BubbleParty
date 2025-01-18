@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6453666849446678384}
   - component: {fileID: 8768560967717128771}
   - component: {fileID: 4828315920928901893}
+  - component: {fileID: -903898993990537031}
   m_Layer: 0
   m_Name: Erosion
   m_TagString: Erosion
@@ -75,9 +76,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.18337901, g: 0.7830189, b: 0.12927197, a: 0.5019608}
+  m_SortingOrder: 3
+  m_Sprite: {fileID: 391579831, guid: 59011be675cae2b48be22f78512957cd, type: 3}
+  m_Color: {r: 0.29045412, g: 0.78431374, b: 0.12941174, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -99,6 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1962c1e36b8fd4c4bbdac13dd2442165, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  duration: 10
 --- !u!58 &8768560967717128771
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -133,7 +135,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.76045364
 --- !u!50 &4828315920928901893
 Rigidbody2D:
   serializedVersion: 4
@@ -161,3 +163,24 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!95 &-903898993990537031
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8818542378661387511}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 87499ec34b17d4d499b4a4ae980a09b1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

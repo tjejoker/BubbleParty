@@ -33,6 +33,8 @@ public class IceBullet :  BulletBase<IceBullet>
                 Debug.Log("对玩家施加了减速DeBuff");
                 var buff = player.GetDeBuff<FreezeDeBuff>(FreezeDeBuff.Key);
                 buff.Set(player, player.bubbleDeBuff);
+                player.hp -= 1 + player.bubbleDeBuff * 0.05f;
+                Ice.Create(player.transform.position, player.bubbleDeBuff*0.5f);
                 player.bubbleDeBuff = 0;
             }
         }

@@ -7,11 +7,6 @@ using UnityEngine;
 public class ErosionBullet : BulletBase<ErosionBullet>
 {
     
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
     
     private Vector3 _direction;
     private float _speed;
@@ -26,6 +21,7 @@ public class ErosionBullet : BulletBase<ErosionBullet>
     public override void Run(float dt)
     {
         transform.position += _direction * (_speed * dt);
+        transform.position = new Vector3(transform.position.x, transform.position.y, 0);
     }
     
     
@@ -36,6 +32,11 @@ public class ErosionBullet : BulletBase<ErosionBullet>
             var bubble = other.GetComponent<Bubble>();
             Erosion.Create(bubble.transform.position, bubble.size);
             bubble.Release();
+        }
+
+        if (other.CompareTag("Rock"))
+        {
+            Release();
         }
     }
 

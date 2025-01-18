@@ -23,5 +23,7 @@ public class ErosionGun : GunBase
         bullet.Initialize(shootPos.right, speed);
         
         TimerInterval.Create(frequency, () => IsColdDown = false);
+        // TODO: 播放音效
+        AudioManager.Instance.PlayEffect(ResSvc.Instance.GetAudioClip("飞行/飞行1"));
     }
 }

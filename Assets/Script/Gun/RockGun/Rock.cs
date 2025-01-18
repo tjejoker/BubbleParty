@@ -29,10 +29,12 @@ public class Rock : MonoBehaviour
     public static void Create(Vector3 position, float size)
     {
         var rock = Pool.Create();
-        rock.transform.position = position;
+        rock.transform.position = new Vector3(position.x, position.y, 0);
         rock.transform.localScale = new Vector3(size, size, size);
         
         rock.Hp = size;
+        // TODO: 播放音效
+        AudioManager.Instance.PlayEffect(ResSvc.Instance.GetAudioClip("地裂/地裂"));
     }
 
     

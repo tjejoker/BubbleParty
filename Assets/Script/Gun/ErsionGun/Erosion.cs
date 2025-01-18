@@ -16,7 +16,7 @@ public class Erosion : MonoBehaviour
     public static void Create(Vector3 position, float size)
     {
         var er = ActorPool<Erosion>.Instance.Create();
-        er.transform.position = position;
+        er.transform.position = new Vector3(position.x, position.y, 0);
         er.transform.localScale = new Vector3(size, size, size);
         
         TimerRun.Create(er.duration, t =>
@@ -27,7 +27,8 @@ public class Erosion : MonoBehaviour
         {
             ActorPool<Erosion>.Instance.Destroy(er);
         });
-        
+        // TODO: 播放音效
+        AudioManager.Instance.PlayEffect(ResSvc.Instance.GetAudioClip("毒气/毒气"));
     }
 
     private void OnTriggerStay2D(Collider2D other)
@@ -35,7 +36,7 @@ public class Erosion : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             var player = other.GetComponent<Player>();
-            player.hp -= 10 * Time.deltaTime;
+            player.hp -=   Time.deltaTime;
         }
     }
 

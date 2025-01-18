@@ -3,12 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Framework;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 public enum PlayerCtrl
 {
-    Player1, Player2
+    Player1, Player2,Player3
 }
 
 public class Player : MonoBehaviour
@@ -46,9 +48,11 @@ public class Player : MonoBehaviour
     public float bubbleDeBuff;
     public bool inIce = false;
     private Vector2 _velocity;
-
+    public bool canMove = true;
     public Dictionary<string, DeBuff> DeBuffs = new();
-    
+
+    public Image bubbleDeBuffImg;
+    public bool isReady;
     
     private void Awake()
     {
@@ -79,14 +83,44 @@ public class Player : MonoBehaviour
             case PlayerCtrl.Player2:
                 inputX = Input.GetAxisRaw("Horizontal_Arrows");
                 inputY = Input.GetAxisRaw("Vertical_Arrows");
+                
+                if(Input.GetKey(KeyCode.Keypad1))
+                    FireBubble();
+                if(Input.GetKey(KeyCode.Keypad2))
+                    FireSpecial();
+                if(Input.GetKeyDown(KeyCode.Keypad3))
+                    SwitchGun();
+                break;
+            
+            case PlayerCtrl.Player3:
+                inputX = Input.GetAxisRaw("LeftStickHorizontal");
+                inputY = -Input.GetAxisRaw("LeftStickVertical");
+                
+                if(Input.GetKey(KeyCode.Joystick1Button0))
+                    FireBubble();
+                if(Input.GetKey(KeyCode.Joystick1Button1))
+                    FireSpecial();
+                if(Input.GetKeyDown(KeyCode.Joystick1Button2))
+                    SwitchGun();
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
-        
 
-        // 如果同时按下两个方向键，减少移动速度以避免对角线移动过快
-        movementInput = new Vector2(inputX, inputY).normalized;
+        if (canMove)
+        {
+            // 如果同时按下两个方向键，减少移动速度以避免对角线移动过快
+            if (inputX > 0 && transform.GetChild(0).localScale.x < 0)
+            {
+                transform.GetChild(0).localScale = new Vector3(transform.GetChild(0).localScale.x * -1, transform.GetChild(0).localScale.y, transform.GetChild(0).localScale.z);
+            }
+            else if (inputX < 0 &&transform.GetChild(0).localScale.x > 0)
+            {
+                transform.GetChild(0).localScale = new Vector3(transform.GetChild(0).localScale.x * -1, transform.GetChild(0).localScale.y, transform.GetChild(0).localScale.z);
+            }
+            movementInput = new Vector2(inputX, inputY).normalized * math.max(0,1 - bubbleDeBuff / 100);
+        }
+        
     }
 
     private void Movement()
@@ -116,6 +150,46 @@ public class Player : MonoBehaviour
         PlayerInput();
         UpdateGunPositionAndRotation();
         UpdateDeBuffs();
+        if (playerUI != null)
+        {
+            SetHP();
+        }
+        CheckBubbleDeBuff();
+    }
+
+    void SetHP()
+    {
+        if (hp > 100)
+        {
+            hp = 100;
+        }
+
+        if (hp < 0)
+        {
+            hp = 0;
+        }
+        playerUI.SetHP(hp);
+        playerUI.SetText(hp);
+    }
+
+    public float bubbleDeBuffRemove = 0.5f;
+    public float maxTime = 1;
+    private float lastTime;
+    private bool isCheck;
+    void CheckBubbleDeBuff()
+    {
+        bubbleDeBuffImg.fillAmount = (bubbleDeBuff / 100);
+
+        if (bubbleDeBuff > 0)
+        {
+            lastTime += Time.deltaTime;
+            if (lastTime > maxTime)
+            {
+                bubbleDeBuff -= bubbleDeBuffRemove;
+                lastTime -= maxTime;
+            }
+        }
+        
     }
 
     private void FixedUpdate()
@@ -143,36 +217,52 @@ public class Player : MonoBehaviour
 
     private void FireBubble()
     {
-        _guns.Peek().gameObject.SetActive(false);
-        bubbleGun.gameObject.SetActive(true);
+        if (GameRoot.Instance.isStart)
+        {
+            _guns.Peek().gameObject.SetActive(false);
+            bubbleGun.gameObject.SetActive(true);
 
-        _gun = bubbleGun.transform;
-        SetGunRot();
+            _gun = bubbleGun.transform;
+            SetGunRot();
         
-        bubbleGun.Fire();
+            bubbleGun.Fire();
+        }
+        
     }
 
     private void FireSpecial()
     {
-        bubbleGun.gameObject.SetActive(false);
-        _guns.Peek().gameObject.SetActive(true);
+        if (GameRoot.Instance.isStart)
+        {
+            bubbleGun.gameObject.SetActive(false);
+            _guns.Peek().gameObject.SetActive(true);
         
-        _gun = _guns.Peek().transform;
-        SetGunRot();
+            _gun = _guns.Peek().transform;
+            SetGunRot();
 
-        _guns.Peek().Fire();
+            _guns.Peek().Fire();
+        }
+       
         
     }
 
     private void SwitchGun()
     {
-        bubbleGun.gameObject.SetActive(false);
-        _guns.Peek().gameObject.SetActive(false);
-        _guns.Enqueue(_guns.Dequeue());
-        _guns.Peek().gameObject.SetActive(true);
+        if (isReady)
+        {
+            bubbleGun.gameObject.SetActive(false);
+            _guns.Peek().gameObject.SetActive(false);
+            _guns.Enqueue(_guns.Dequeue());
+            _guns.Peek().gameObject.SetActive(true);
         
-        _gun = _guns.Peek().transform;
-        SetGunRot();
+            _gun = _guns.Peek().transform;
+            SetGunRot();
+        }
+        else
+        {
+            isReady = true;
+            GameRoot.Instance.PlayerReadyCount++;
+        }
     }
 
     private void SetGunRot()
