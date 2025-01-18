@@ -10,9 +10,5 @@ using Random = UnityEngine.Random;
 public class Bubble : BulletBase<Bubble>, IUpdate
 {
     public float size;
-
-    
-
-
  
 }
