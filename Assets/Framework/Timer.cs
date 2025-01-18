@@ -15,7 +15,7 @@ namespace Framework
     }
 
     /// <summary>
-    /// x秒内一直执行
+    /// x秒后一直执行
     /// </summary>
     public class TimerInterval : TimerBase
     {
@@ -78,7 +78,7 @@ namespace Framework
     }
 
     /// <summary>
-    /// 在x秒后执行
+    /// 在x秒内执行
     /// </summary>
     public class TimerRun : TimerBase
     {
