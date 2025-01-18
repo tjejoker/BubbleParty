@@ -1,0 +1,27 @@
+fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Resources/AudioClips/泡泡/泡泡1.mp3.meta
+guid: a9286558c1c58a242a9f743d7168c311
+=======
+guid: 1e41a010fa8978c43a946da05dc0b139
+>>>>>>> 650d8ce007b0bb10688dfa452b4de2ab890ce544:Assets/Resources/AudioClip/泡泡/泡泡1.mp3.meta
+AudioImporter:
+  externalObjects: {}
+  serializedVersion: 7
+  defaultSettings:
+    serializedVersion: 2
+    loadType: 0
+    sampleRateSetting: 0
+    sampleRateOverride: 44100
+    compressionFormat: 1
+    quality: 1
+    conversionMode: 0
+    preloadAudioData: 0
+  platformSettingOverrides: {}
+  forceToMono: 0
+  normalize: 1
+  loadInBackground: 0
+  ambisonic: 0
+  3D: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

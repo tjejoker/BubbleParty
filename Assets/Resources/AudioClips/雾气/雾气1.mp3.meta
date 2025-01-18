@@ -1,0 +1,27 @@
+fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Resources/AudioClips/雾气/雾气1.mp3.meta
+guid: 7e2dcb6634f821542998f2cfe49c2ba7
+=======
+guid: 9435e97040b0c844f845031f0ccfaf63
+>>>>>>> 650d8ce007b0bb10688dfa452b4de2ab890ce544:Assets/Resources/AudioClip/雾气/雾气1.mp3.meta
+AudioImporter:
+  externalObjects: {}
+  serializedVersion: 7
+  defaultSettings:
+    serializedVersion: 2
+    loadType: 0
+    sampleRateSetting: 0
+    sampleRateOverride: 44100
+    compressionFormat: 1
+    quality: 1
+    conversionMode: 0
+    preloadAudioData: 0
+  platformSettingOverrides: {}
+  forceToMono: 0
+  normalize: 1
+  loadInBackground: 0
+  ambisonic: 0
+  3D: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

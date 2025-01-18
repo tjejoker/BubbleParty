@@ -1,0 +1,27 @@
+fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Resources/AudioClips/BGM/bgm1.mp3.meta
+guid: cc021bdf1702d7a45adb93d8ea6c4689
+=======
+guid: 3979da288b3689e4ea31ed6e4b19fbbb
+>>>>>>> 650d8ce007b0bb10688dfa452b4de2ab890ce544:Assets/Resources/AudioClip/BGM/bgm1.mp3.meta
+AudioImporter:
+  externalObjects: {}
+  serializedVersion: 7
+  defaultSettings:
+    serializedVersion: 2
+    loadType: 0
+    sampleRateSetting: 0
+    sampleRateOverride: 44100
+    compressionFormat: 1
+    quality: 1
+    conversionMode: 0
+    preloadAudioData: 0
+  platformSettingOverrides: {}
+  forceToMono: 0
+  normalize: 1
+  loadInBackground: 0
+  ambisonic: 0
+  3D: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
