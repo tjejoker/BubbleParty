@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Framework;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 public abstract class BulletMoveWay
 {
@@ -38,22 +39,16 @@ public static class ActorPool<T> where T : MonoBehaviour
 
 public abstract class BulletBase<T> : MonoBehaviour, IUpdate where T : BulletBase<T>
 {
-    private BulletMoveWay _moveWay;
 
-    public static T Create(Vector3 origin, Quaternion faceTo, BulletMoveWay moveWay)
+    public static T Create(Vector3 origin, Quaternion faceTo)
     {
         var bullet = ActorPool<T>.Instance.Create();
-        bullet._moveWay = moveWay;
         bullet.transform.position = origin;
         bullet.transform.rotation = faceTo;
-        GlobalUpdate.Instance.Register(bullet);
         return bullet;
     }
 
-    public virtual void Run(float dt)
-    {
-        _moveWay.Update(this, dt);
-    }
+    public abstract void Run(float dt);
 
     public bool IsDone()
     {

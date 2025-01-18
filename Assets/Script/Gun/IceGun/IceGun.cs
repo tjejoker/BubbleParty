@@ -20,9 +20,8 @@ public class IceGun : GunBase
         
         IsColdDown = true;
         
-        IceBullet.Create(shootPos.position,
-            shootPos.rotation,
-            new LineBulletMoveWay(shootPos.right, speed));
+        var bullet = IceBullet.Create(shootPos.position, shootPos.rotation);
+        bullet.Initialize(shootPos.right, speed);
         
         TimerInterval.Create(frequency, () => IsColdDown = false);
     }

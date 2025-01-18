@@ -12,10 +12,9 @@ public class FireGun : GunBase
 
         IsColdDown = true;
 
-        FireBullet.Create(shootPos.position,
-            shootPos.rotation,
-            new LineBulletMoveWay(shootPos.right, speed));
-
+        var bullet = FireBullet.Create(shootPos.position, shootPos.rotation);
+        bullet.Initialize(shootPos.right, speed);
+        
         TimerInterval.Create(frequency, () => IsColdDown = false);
     }
 }

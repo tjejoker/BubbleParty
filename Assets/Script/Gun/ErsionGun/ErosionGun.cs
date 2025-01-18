@@ -19,9 +19,8 @@ public class ErosionGun : GunBase
         
         IsColdDown = true;
         
-        ErosionBullet.Create(shootPos.position,
-            shootPos.rotation,
-            new LineBulletMoveWay(shootPos.right, speed));
+        var bullet = ErosionBullet.Create(shootPos.position, shootPos.rotation);
+        bullet.Initialize(shootPos.right, speed);
         
         TimerInterval.Create(frequency, () => IsColdDown = false);
     }
