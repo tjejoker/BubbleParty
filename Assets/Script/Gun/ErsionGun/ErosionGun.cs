@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Framework;
 using UnityEngine;
 
 public class ErosionGun : GunBase
@@ -13,8 +14,15 @@ public class ErosionGun : GunBase
 
     public override void Fire()
     {
+        if(IsColdDown)
+            return;
+        
+        IsColdDown = true;
+        
         ErosionBullet.Create(shootPos.position,
             shootPos.rotation,
-            new LineBulletMoveWay(shootPos.forward, speed));
+            new LineBulletMoveWay(shootPos.right, speed));
+        
+        TimerInterval.Create(frequency, () => IsColdDown = false);
     }
 }

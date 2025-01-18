@@ -16,6 +16,6 @@ public class FireGun : GunBase
             shootPos.rotation,
             new LineBulletMoveWay(shootPos.right, speed));
 
-        TimerInterval.Create(frequency, () => { IsColdDown = false; });
+        TimerInterval.Create(frequency, () => IsColdDown = false);
     }
 }

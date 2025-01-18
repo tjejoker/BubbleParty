@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Framework;
 using UnityEngine;
 
 public class RockGun :GunBase
@@ -13,9 +14,16 @@ public class RockGun :GunBase
 
     public override void Fire()
     {
+        if(IsColdDown)
+            return;
+        
+        IsColdDown = true;
+        
         RockBullet.Create(shootPos.position,
             shootPos.rotation,
-            new LineBulletMoveWay(shootPos.forward, speed));
+            new LineBulletMoveWay(shootPos.right, speed));
+        
+        TimerInterval.Create(frequency, () => IsColdDown = false);
     }
 
 
