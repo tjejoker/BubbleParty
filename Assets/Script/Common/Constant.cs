@@ -11,4 +11,7 @@ public class Constant
     public static readonly string AudioClipFolder = "AudioClips/";
     public static readonly string PrefabFolder = "Prefabs/";
     public static readonly string SpriteFolder = "Sprites/";
+    
+    
+    public static readonly string PlayerPath = "Player/player";
 }

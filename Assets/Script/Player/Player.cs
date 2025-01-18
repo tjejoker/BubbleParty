@@ -22,6 +22,8 @@ public class Player : MonoBehaviour
     private float inputY;
 
     private Vector2 movementInput;
+    
+    public PlayerUI playerUI;
 
     // 移动范围限制参数
     private float minX = -60f; // X轴最小值
@@ -63,8 +65,8 @@ public class Player : MonoBehaviour
         switch (playerCtrl)
         {
             case PlayerCtrl.Player1:
-                inputX = Input.GetAxisRaw("Horizontal_WASD");
-                inputY = Input.GetAxisRaw("Vertical_WASD");
+                inputX = Input.GetAxisRaw("Horizontal");
+                inputY = Input.GetAxisRaw("Vertical");
                 
                 if(Input.GetKey(KeyCode.J))
                     FireBubble();

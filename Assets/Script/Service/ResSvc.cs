@@ -49,4 +49,7 @@ public class ResSvc : MonoBehaviour
         }
         return sprite;
     }
+
+    
+    
 }
