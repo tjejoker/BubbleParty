@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public enum PlayerCtrl
 {
@@ -37,6 +38,9 @@ public class Player : MonoBehaviour
     public List<GunBase> guns;
     private Queue<GunBase> _guns;
 
+    public float hp;
+    public float bubbleDeBuff;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -59,7 +63,7 @@ public class Player : MonoBehaviour
                     FireBubble();
                 if(Input.GetKey(KeyCode.K))
                     FireSpecial();
-                if(Input.GetKey(KeyCode.L))
+                if(Input.GetKeyDown(KeyCode.L))
                     SwitchGun();
                 
                 break;
@@ -145,7 +149,8 @@ public class Player : MonoBehaviour
         _guns.Peek().Fire();
         
     }
-    public void SwitchGun()
+
+    private void SwitchGun()
     {
         bubbleGun.gameObject.SetActive(false);
         _guns.Peek().gameObject.SetActive(false);
@@ -170,5 +175,5 @@ public class Player : MonoBehaviour
         
         _gun.localScale = gunDirection.x < 0 ? new Vector3(1, -1, 1) : new Vector3(1, 1, 1); 
     }
-    
+
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Framework;
@@ -41,5 +42,10 @@ public class Ice : MonoBehaviour
     private void Destroy()
     {
         Pool.Destroy(this);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        
     }
 }

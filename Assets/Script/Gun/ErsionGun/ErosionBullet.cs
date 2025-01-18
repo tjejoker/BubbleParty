@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,4 +11,13 @@ public class ErosionBullet : BulletBase<ErosionBullet>
         
     }
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Bubble"))
+        {
+            var bubble = other.GetComponent<Bubble>();
+            Erosion.Create(bubble.transform.position, bubble.size);
+            bubble.Release();
+        }
+    }
 }
