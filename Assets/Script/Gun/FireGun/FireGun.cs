@@ -1,12 +1,21 @@
+using Framework;
+
 public class FireGun : GunBase
 {
     public float speed;
-    
+
     // 直线发射
-    protected override void Fire()
+    public override void Fire()
     {
+        if (IsColdDown)
+            return;
+
+        IsColdDown = true;
+
         FireBullet.Create(shootPos.position,
             shootPos.rotation,
-            new LineBulletMoveWay(shootPos.forward, speed));
+            new LineBulletMoveWay(shootPos.right, speed));
+
+        TimerInterval.Create(frequency, () => { IsColdDown = false; });
     }
 }

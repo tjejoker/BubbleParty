@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using Framework;
 using UnityEngine;
 
 public class BubbleGun : GunBase
@@ -29,22 +31,15 @@ public class BubbleGun : GunBase
     }
 
 
-    // Update is called once per frame
-    void Update()
+    public override void Fire()
     {
-        _gap += Time.deltaTime;
-
-        if (Input.GetKey(KeyCode.Space) && _gap > frequency)
-        {
-            Fire();
-            _gap = 0;
-        }
-    }
-
-
-    protected override void Fire()
-    {
+        if(IsColdDown)
+            return;
+        
+        IsColdDown = true;
         Bubble.Create(shootPos.position, shootPos.rotation, new BubbleMoveWay(this));
+        
+        TimerInterval.Create(frequency, () => {IsColdDown = false; });
     }
 }
 

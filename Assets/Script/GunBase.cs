@@ -7,12 +7,12 @@ public abstract class GunBase : MonoBehaviour
     public Transform shootPos;
     public float frequency;
 
-    protected float _gap;
-    
+    protected bool IsColdDown = false;
     // Start is called before the first frame update
     void Start()
     {
         
     }
-    protected abstract void Fire();
+
+    public abstract void Fire();
 }

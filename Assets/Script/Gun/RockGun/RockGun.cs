@@ -11,7 +11,7 @@ public class RockGun :GunBase
         
     }
 
-    protected override void Fire()
+    public override void Fire()
     {
         RockBullet.Create(shootPos.position,
             shootPos.rotation,

@@ -12,7 +12,7 @@ public class IceGun : GunBase
         
     }
 
-    protected override void Fire()
+    public override void Fire()
     {
         IceBullet.Create(shootPos.position,
             shootPos.rotation,

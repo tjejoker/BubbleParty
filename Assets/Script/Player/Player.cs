@@ -27,14 +27,24 @@ public class Player : MonoBehaviour
     private float maxY = 19f;  // Y轴最大值
 
     // 枪的控制参数
-    public Transform gun; // 枪的Transform组件
     private Vector2 gunDirection = Vector2.right; // 枪的默认方向（向右）
     private float gunRadius = 4.6f; // 枪与Body的距离
+
+    private Transform _gun; // 枪的Transform组件
+    private float _angle;
+    
+    public BubbleGun bubbleGun;
+    public List<GunBase> guns;
+    private Queue<GunBase> _guns;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         rb.freezeRotation = true; // 锁定旋转
+        
+        _gun = bubbleGun.transform;
+        guns.ForEach(g => g.gameObject.SetActive(false));
+        _guns = new Queue<GunBase>(guns);
     }
 
     private void PlayerInput()
@@ -44,6 +54,14 @@ public class Player : MonoBehaviour
             case PlayerCtrl.Player1:
                 inputX = Input.GetAxisRaw("Horizontal_WASD");
                 inputY = Input.GetAxisRaw("Vertical_WASD");
+                
+                if(Input.GetKey(KeyCode.J))
+                    FireBubble();
+                if(Input.GetKey(KeyCode.K))
+                    FireSpecial();
+                if(Input.GetKey(KeyCode.L))
+                    SwitchGun();
+                
                 break;
             case PlayerCtrl.Player2:
                 inputX = Input.GetAxisRaw("Horizontal_Arrows");
@@ -66,7 +84,7 @@ public class Player : MonoBehaviour
     private void Movement()
     {
         // 计算新位置
-        Vector2 newPosition = rb.position + movementInput * speed * Time.deltaTime;
+        Vector2 newPosition = rb.position + movementInput * (speed * Time.deltaTime);
 
         // 限制新位置在矩形区域内
         newPosition.x = Mathf.Clamp(newPosition.x, minX, maxX);
@@ -89,7 +107,7 @@ public class Player : MonoBehaviour
 
     private void UpdateGunPositionAndRotation()
     {
-        if (gun == null)
+        if (_gun == null)
         {
             Debug.LogError("Gun is not assigned in the inspector!");
             return;
@@ -99,25 +117,58 @@ public class Player : MonoBehaviour
         {
             // 根据输入方向更新枪的方向
             gunDirection = movementInput.normalized;
+            _angle = Mathf.Atan2(gunDirection.y, gunDirection.x) * Mathf.Rad2Deg;
 
-            // 计算枪的位置
-            Vector2 gunOffset = gunDirection * gunRadius;
-            gun.position = rb.position + gunOffset;
-
-            // 计算枪的旋转角度
-            float angle = Mathf.Atan2(gunDirection.y, gunDirection.x) * Mathf.Rad2Deg;
-            gun.rotation = Quaternion.Euler(0, 0, angle);
-
-            // 水平翻转枪的图片
-            if (gunDirection.x < 0)
-            {
-                gun.localScale = new Vector3(1, -1, 1); // 水平翻转
-            }
-            else
-            {
-                gun.localScale = new Vector3(1, 1, 1); // 恢复默认
-            }
+            SetGunRot();
         }
+    }
+
+    private void FireBubble()
+    {
+        _guns.Peek().gameObject.SetActive(false);
+        bubbleGun.gameObject.SetActive(true);
+
+        _gun = bubbleGun.transform;
+        SetGunRot();
+        
+        bubbleGun.Fire();
+    }
+
+    private void FireSpecial()
+    {
+        bubbleGun.gameObject.SetActive(false);
+        _guns.Peek().gameObject.SetActive(true);
+        
+        _gun = _guns.Peek().transform;
+        SetGunRot();
+
+        _guns.Peek().Fire();
+        
+    }
+    public void SwitchGun()
+    {
+        bubbleGun.gameObject.SetActive(false);
+        _guns.Peek().gameObject.SetActive(false);
+        _guns.Enqueue(_guns.Dequeue());
+        _guns.Peek().gameObject.SetActive(true);
+        
+        _gun = _guns.Peek().transform;
+        SetGunRot();
+    }
+
+    private void SetGunRot()
+    {
+        // 计算枪的位置
+        Vector2 gunOffset = gunDirection * gunRadius;
+        _gun.position = rb.position + gunOffset;
+
+        // 计算枪的旋转角度
+        _gun.rotation = Quaternion.Euler(0, 0, _angle);
+
+        // 水平翻转枪的图片
+        // 水平翻转 or 恢复默认
+        
+        _gun.localScale = gunDirection.x < 0 ? new Vector3(1, -1, 1) : new Vector3(1, 1, 1); 
     }
     
 }
