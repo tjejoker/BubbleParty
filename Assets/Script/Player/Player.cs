@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Framework;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -40,7 +42,12 @@ public class Player : MonoBehaviour
 
     public float hp;
     public float bubbleDeBuff;
+    public bool inIce = false;
+    private Vector2 _velocity;
 
+    public Dictionary<string, DeBuff> DeBuffs = new();
+    
+    
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -77,18 +84,22 @@ public class Player : MonoBehaviour
         
 
         // 如果同时按下两个方向键，减少移动速度以避免对角线移动过快
-        if (inputX != 0 && inputY != 0)
-        {
-            inputX = inputX * 0.6f;
-            inputY = inputY * 0.6f;
-        }
-        movementInput = new Vector2(inputX, inputY);
+        movementInput = new Vector2(inputX, inputY).normalized;
     }
 
     private void Movement()
     {
+        if(!inIce)
+            _velocity = movementInput * speed;
+        else
+        {
+            _velocity += movementInput * (Time.deltaTime * speed);
+            _velocity.x = Mathf.Clamp(_velocity.x, -speed, speed);
+            _velocity.y = Mathf.Clamp(_velocity.y, -speed, speed);
+        }
+        
         // 计算新位置
-        Vector2 newPosition = rb.position + movementInput * (speed * Time.deltaTime);
+        Vector2 newPosition = rb.position + _velocity * Time.deltaTime;
 
         // 限制新位置在矩形区域内
         newPosition.x = Mathf.Clamp(newPosition.x, minX, maxX);
@@ -102,6 +113,7 @@ public class Player : MonoBehaviour
     {
         PlayerInput();
         UpdateGunPositionAndRotation();
+        UpdateDeBuffs();
     }
 
     private void FixedUpdate()
@@ -176,4 +188,21 @@ public class Player : MonoBehaviour
         _gun.localScale = gunDirection.x < 0 ? new Vector3(1, -1, 1) : new Vector3(1, 1, 1); 
     }
 
+    public T GetDeBuff<T>(string key) where T : DeBuff , new()
+    {
+        if(!DeBuffs.ContainsKey(key))
+            DeBuffs.Add(key, new T());
+        
+        return (T)DeBuffs[key];
+    }
+
+    public void DeleteDeBuff(string key)
+    {
+        DeBuffs.Remove(key);
+    }
+
+    public void UpdateDeBuffs()
+    {
+        DeBuffs.Values.ToList().ForEach(buff => buff.Update(Time.deltaTime));
+    }
 }

@@ -39,6 +39,13 @@ public class Explosion : MonoBehaviour
         
         if (other.CompareTag("Player"))
         {
+            var player = other.GetComponent<Player>();
+            player.hp -= _size * 0.1f;
+            if (player.bubbleDeBuff > 0.5f)
+            {
+                Create(player.transform.position, player.bubbleDeBuff);
+                player.bubbleDeBuff = 0;
+            }
         }
         
         if (other.CompareTag("Bubble"))

@@ -310,6 +310,10 @@ PrefabInstance:
       propertyPath: playerCtrl
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1180587277614299622, guid: 0a3fe5c249761754d87e364a4e586da7, type: 3}
+      propertyPath: bubbleDeBuff
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4403186194643681889, guid: 0a3fe5c249761754d87e364a4e586da7, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -416,13 +420,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1921635156039538736, guid: 0a3fe5c249761754d87e364a4e586da7, type: 3}
-      propertyPath: sizeMax
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 1921635156039538736, guid: 0a3fe5c249761754d87e364a4e586da7, type: 3}
-      propertyPath: sizeMin
-      value: 8
+    - target: {fileID: 1180587277614299622, guid: 0a3fe5c249761754d87e364a4e586da7, type: 3}
+      propertyPath: bubbleDeBuff
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6568529945122229631, guid: 0a3fe5c249761754d87e364a4e586da7, type: 3}
       propertyPath: m_LocalPosition.x

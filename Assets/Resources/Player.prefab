@@ -145,6 +145,9 @@ MonoBehaviour:
   - {fileID: 4236122966406558604}
   - {fileID: 7661656531454124307}
   - {fileID: 311533338200931742}
+  hp: 100
+  bubbleDeBuff: 0
+  inIce: 0
 --- !u!1 &8492391031179030103
 GameObject:
   m_ObjectHideFlags: 0
@@ -422,6 +425,14 @@ PrefabInstance:
     - target: {fileID: 2336001053410119535, guid: a1ecd908ca66e0e459ff3a52d5358a33, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2795213044945399157, guid: a1ecd908ca66e0e459ff3a52d5358a33, type: 3}
+      propertyPath: sizeMax
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 2795213044945399157, guid: a1ecd908ca66e0e459ff3a52d5358a33, type: 3}
+      propertyPath: sizeMin
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6603420037458564760, guid: a1ecd908ca66e0e459ff3a52d5358a33, type: 3}
       propertyPath: m_Name
