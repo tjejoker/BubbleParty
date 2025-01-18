@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Framework
 {
@@ -9,7 +11,10 @@ namespace Framework
         private readonly GameObject _prefab;
         private readonly Stack<T> _pools = new();
 
-        protected BufferPool(){}
+        protected BufferPool()
+        {
+        }
+
         public BufferPool(GameObject prefab)
         {
             _manager = new GameObject(prefab.name + "Pool");
@@ -21,15 +26,15 @@ namespace Framework
         /// need set pos and rot and parent after created.
         /// </summary>
         /// <returns></returns>
-        public T  Create()
+        public T Create()
         {
             if (_pools.Count == 0)
                 return Object.Instantiate(_prefab).GetComponent<T>();
 
-            var behaviour= _pools.Pop();
+            var behaviour = _pools.Pop();
             var obj = behaviour.gameObject;
             obj.SetActive(true);
-            
+
             return behaviour;
         }
 
@@ -39,7 +44,8 @@ namespace Framework
             obj.gameObject.SetActive(false);
             _pools.Push(obj);
         }
-
     }
+
+
 
 }
