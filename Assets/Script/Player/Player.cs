@@ -44,10 +44,15 @@ public class Player : MonoBehaviour
 
     public float hp;
     public float bubbleDeBuff;
+    
+    
     public bool inIce = false;
     private Vector2 _velocity;
+    private Vector2 _strikeVelocity;
+    public float strikeFactor = 100;
+    public float reduceFactor = 0.3f;
 
-    public Dictionary<string, DeBuff> DeBuffs = new();
+    private readonly Dictionary<string, DeBuff> _deBuffs = new();
     
     
     private void Awake()
@@ -91,8 +96,10 @@ public class Player : MonoBehaviour
 
     private void Movement()
     {
-        if(!inIce)
+        if (!inIce)
+        {
             _velocity = movementInput * speed;
+        }
         else
         {
             _velocity += movementInput * (Time.deltaTime * speed);
@@ -101,14 +108,24 @@ public class Player : MonoBehaviour
         }
         
         // 计算新位置
-        Vector2 newPosition = rb.position + _velocity * Time.deltaTime;
-
+        // Vector2 newPosition = rb.position + _velocity * Time.deltaTime;
+        
+        _strikeVelocity = Vector2.Lerp(_strikeVelocity, Vector2.zero, reduceFactor);
+        if(_strikeVelocity.magnitude < 0.1f)
+            _strikeVelocity = Vector2.zero;
+        
         // 限制新位置在矩形区域内
-        newPosition.x = Mathf.Clamp(newPosition.x, minX, maxX);
-        newPosition.y = Mathf.Clamp(newPosition.y, minY, maxY);
+        //newPosition.x = Mathf.Clamp(newPosition.x, minX, maxX);
+        //newPosition.y = Mathf.Clamp(newPosition.y, minY, maxY);
 
         // 应用新位置
-        rb.MovePosition(newPosition);
+        rb.velocity = _velocity + _strikeVelocity;
+        // rb.MovePosition(newPosition);
+    }
+
+    public void AddStrikeForce(Vector2 force)
+    {
+        _strikeVelocity += force * strikeFactor;
     }
 
     private void Update()
@@ -192,19 +209,19 @@ public class Player : MonoBehaviour
 
     public T GetDeBuff<T>(string key) where T : DeBuff , new()
     {
-        if(!DeBuffs.ContainsKey(key))
-            DeBuffs.Add(key, new T());
+        if(!_deBuffs.ContainsKey(key))
+            _deBuffs.Add(key, new T());
         
-        return (T)DeBuffs[key];
+        return (T)_deBuffs[key];
     }
 
     public void DeleteDeBuff(string key)
     {
-        DeBuffs.Remove(key);
+        _deBuffs.Remove(key);
     }
 
-    public void UpdateDeBuffs()
+    private void UpdateDeBuffs()
     {
-        DeBuffs.Values.ToList().ForEach(buff => buff.Update(Time.deltaTime));
+        _deBuffs.Values.ToList().ForEach(buff => buff.Update(Time.deltaTime));
     }
 }
