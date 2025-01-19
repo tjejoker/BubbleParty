@@ -122,6 +122,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+<<<<<<< HEAD
 --- !u!58 &6979727236595780425
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -184,3 +185,5 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+=======
+>>>>>>> 334d9887444369425df4216a9665d084a0d69208
