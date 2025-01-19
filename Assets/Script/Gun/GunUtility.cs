@@ -55,7 +55,7 @@ public abstract class BulletBase<T> : MonoBehaviour, IUpdate where T : BulletBas
         return !isActiveAndEnabled;
     }
 
-    public void Release()
+    public virtual void Release()
     {
         ActorPool<T>.Instance.Destroy((T)this);
     }

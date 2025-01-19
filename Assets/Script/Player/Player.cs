@@ -49,13 +49,24 @@ public class Player : MonoBehaviour
 
     public float hp;
     public float bubbleDeBuff;
+    
+    
     public bool inIce = false;
     private Vector2 _velocity;
+<<<<<<< HEAD
     public bool canMove = true;
     public Dictionary<string, DeBuff> DeBuffs = new();
 
     public Image bubbleDeBuffImg;
     public bool isReady;
+=======
+    private Vector2 _strikeVelocity;
+    public float strikeFactor = 100;
+    public float reduceFactor = 0.3f;
+
+    private readonly Dictionary<string, DeBuff> _deBuffs = new();
+    
+>>>>>>> d02032a9134b2df3d5c312d27fc41bea50100df6
     
     private void Awake()
     {
@@ -154,7 +165,11 @@ public class Player : MonoBehaviour
         rb.velocity = _velocity + _strikeVelocity;
         // rb.MovePosition(newPosition);
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> d02032a9134b2df3d5c312d27fc41bea50100df6
     public void AddStrikeForce(Vector2 force)
     {
         _strikeVelocity += force * strikeFactor;
@@ -297,19 +312,19 @@ public class Player : MonoBehaviour
 
     public T GetDeBuff<T>(string key) where T : DeBuff , new()
     {
-        if(!DeBuffs.ContainsKey(key))
-            DeBuffs.Add(key, new T());
+        if(!_deBuffs.ContainsKey(key))
+            _deBuffs.Add(key, new T());
         
-        return (T)DeBuffs[key];
+        return (T)_deBuffs[key];
     }
 
     public void DeleteDeBuff(string key)
     {
-        DeBuffs.Remove(key);
+        _deBuffs.Remove(key);
     }
 
-    public void UpdateDeBuffs()
+    private void UpdateDeBuffs()
     {
-        DeBuffs.Values.ToList().ForEach(buff => buff.Update(Time.deltaTime));
+        _deBuffs.Values.ToList().ForEach(buff => buff.Update(Time.deltaTime));
     }
 }
