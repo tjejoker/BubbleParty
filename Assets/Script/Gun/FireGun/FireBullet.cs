@@ -24,25 +24,11 @@ public class FireBullet : BulletBase<FireBullet>
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
-        {
-            var player = other.GetComponent<Player>();
-            
-            // 玩家身上的爆炸
-            if (player.bubbleDeBuff > 0.5f)
-            {
-                Explosion.Create(player.transform.position, player.bubbleDeBuff);
-                player.hp -= player.bubbleDeBuff * 50f;
-                player.bubbleDeBuff = 0;
-            }
-        }
-        
-        
         if (other.CompareTag("Bubble"))
         {
             var bubble = other.GetComponent<Bubble>();
 
-            Explosion.Create(bubble.transform.position, bubble.size + 2.0f);
+            Explosion.Create(bubble.transform.position, bubble.size + 1.0f);
             bubble.Release();
             Release();
         }
@@ -56,7 +42,7 @@ public class FireBullet : BulletBase<FireBullet>
         {
             Player player = other.GetComponent<Player>();
             player.hp -= 2;
-            Explosion.Create(player.transform.position, player.bubbleDeBuff * 0.5f);
+            Explosion.Create(player.transform.position, player.bubbleDeBuff * 0.3f);
             Release();
         }
     }

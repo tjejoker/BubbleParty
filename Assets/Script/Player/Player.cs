@@ -26,10 +26,6 @@ public class Player : MonoBehaviour
     private Vector2 movementInput;
     
     public PlayerUI playerUI;
-    private Vector2 _strikeVelocity;
-    public float strikeFactor = 100;
-    public float reduceFactor = 0.3f;
-
 
     // 移动范围限制参数
     private float minX = -60f; // X轴最小值
@@ -50,17 +46,13 @@ public class Player : MonoBehaviour
 
     public float hp;
     public float bubbleDeBuff;
-    
-    
     public bool inIce = false;
     private Vector2 _velocity;
-
     public bool canMove = true;
     public Dictionary<string, DeBuff> DeBuffs = new();
 
     public Image bubbleDeBuffImg;
     public bool isReady;
-    private readonly Dictionary<string, DeBuff> _deBuffs = new();
     
     private void Awake()
     {
@@ -133,10 +125,8 @@ public class Player : MonoBehaviour
 
     private void Movement()
     {
-        if (!inIce)
-        {
+        if(!inIce)
             _velocity = movementInput * speed;
-        }
         else
         {
             _velocity += movementInput * (Time.deltaTime * speed);
@@ -145,33 +135,32 @@ public class Player : MonoBehaviour
         }
         
         // 计算新位置
-        // Vector2 newPosition = rb.position + _velocity * Time.deltaTime;
-        
-        _strikeVelocity = Vector2.Lerp(_strikeVelocity, Vector2.zero, reduceFactor);
-        if(_strikeVelocity.magnitude < 0.1f)
-            _strikeVelocity = Vector2.zero;
-        
+        Vector2 newPosition = rb.position + _velocity * Time.deltaTime;
+
         // 限制新位置在矩形区域内
-        //newPosition.x = Mathf.Clamp(newPosition.x, minX, maxX);
-        //newPosition.y = Mathf.Clamp(newPosition.y, minY, maxY);
+        newPosition.x = Mathf.Clamp(newPosition.x, minX, maxX);
+        newPosition.y = Mathf.Clamp(newPosition.y, minY, maxY);
 
         // 应用新位置
-        rb.velocity = _velocity + _strikeVelocity;
-        // rb.MovePosition(newPosition);
-    }
-    public void AddStrikeForce(Vector2 force)
-    {
-        _strikeVelocity += force * strikeFactor;
+        rb.MovePosition(newPosition);
     }
 
     private void Update()
     {
-        PlayerInput();
-        UpdateGunPositionAndRotation();
-        UpdateDeBuffs();
+        if (canMove)
+        {
+            PlayerInput();
+            UpdateGunPositionAndRotation();
+            UpdateDeBuffs();
+        }
         if (playerUI != null)
         {
             SetHP();
+        }
+
+        if (isDead)
+        {
+            Dead();
         }
         CheckBubbleDeBuff();
     }
@@ -186,11 +175,27 @@ public class Player : MonoBehaviour
         if (hp < 0)
         {
             hp = 0;
+            //TODO Die
+            canMove = false;
+            isDead = true;
         }
         playerUI.SetHP(hp);
         playerUI.SetText(hp);
     }
 
+    private float deadTime;
+    bool isDead = false;
+    public void Dead()
+    {
+        transform.Rotate(0,0,Time.deltaTime * 360);
+        deadTime += Time.deltaTime;
+        if (deadTime > 2)
+        {
+            GameRoot.Instance.PlayerCount--;
+            GameRoot.Instance.uiDic.Remove(playerUI);
+            gameObject.SetActive(false);   
+        }
+    }
     public float bubbleDeBuffRemove = 0.5f;
     public float maxTime = 1;
     private float lastTime;
@@ -301,19 +306,19 @@ public class Player : MonoBehaviour
 
     public T GetDeBuff<T>(string key) where T : DeBuff , new()
     {
-        if(!_deBuffs.ContainsKey(key))
-            _deBuffs.Add(key, new T());
+        if(!DeBuffs.ContainsKey(key))
+            DeBuffs.Add(key, new T());
         
-        return (T)_deBuffs[key];
+        return (T)DeBuffs[key];
     }
 
     public void DeleteDeBuff(string key)
     {
-        _deBuffs.Remove(key);
+        DeBuffs.Remove(key);
     }
 
-    private void UpdateDeBuffs()
+    public void UpdateDeBuffs()
     {
-        _deBuffs.Values.ToList().ForEach(buff => buff.Update(Time.deltaTime));
+        DeBuffs.Values.ToList().ForEach(buff => buff.Update(Time.deltaTime));
     }
 }

@@ -5,6 +5,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -27,6 +28,10 @@ public class GameRoot : MonoBehaviour
     public int PlayerReadyCount;
 
     public GameObject goldBubble;
+    public Transform winPanel;
+
+    public List<PlayerUI> uiDic;
+    
 
 
     private void Awake()
@@ -36,6 +41,7 @@ public class GameRoot : MonoBehaviour
         audioManager.Init();
         resSvc = GetComponent<ResSvc>();
         resSvc.Init();
+        uiDic = new List<PlayerUI>();
     }
 
 
@@ -49,6 +55,7 @@ public class GameRoot : MonoBehaviour
         AddPlayer();
         ChekcReady();
         GerenateGoldBubble();
+        CheckWin();
     }
 
     float lastTime;
@@ -69,6 +76,16 @@ public class GameRoot : MonoBehaviour
             }
         }
         
+    }
+
+    void CheckWin()
+    {
+        if (isStart && PlayerCount == 1)
+        {
+            //TODO win
+            winPanel.gameObject.SetActive(true);
+            winPanel.GetChild(0).GetComponent<Image>().sprite = uiDic[0].transform.GetChild(0).GetChild(1).GetComponent<Image>().sprite;
+        }
     }
 
     void ChekcReady()
@@ -147,6 +164,8 @@ public class GameRoot : MonoBehaviour
         player.playerUI = playerUI.GetComponent<PlayerUI>();
         count++;
         PlayerCount++;
+        PlayerUI ui = playerUI.GetComponent<PlayerUI>();
+        uiDic.Add(ui);
     }
     
     
