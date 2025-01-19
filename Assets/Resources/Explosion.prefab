@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 3905692818082670662}
   - component: {fileID: 1512903996095381348}
   - component: {fileID: 1901736716459312869}
-  - component: {fileID: 39377522731686281}
-  - component: {fileID: 7639043563538969608}
   - component: {fileID: 5162238270046528454}
+  - component: {fileID: 6979727236595780425}
+  - component: {fileID: -7313329701657887961}
   m_Layer: 0
   m_Name: Explosion
   m_TagString: Explosion
@@ -100,7 +100,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad72a18a993a3a24c9ff1c2cf4358f1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!58 &39377522731686281
+  factor: 10
+--- !u!95 &5162238270046528454
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4840538931066482503}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e5da757fae7207d4699b742aa18b7304, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!58 &6979727236595780425
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -135,7 +157,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!50 &7639043563538969608
+--- !u!50 &-7313329701657887961
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
@@ -143,7 +165,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4840538931066482503}
-  m_BodyType: 1
+  m_BodyType: 2
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -162,24 +184,3 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!95 &5162238270046528454
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4840538931066482503}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: e5da757fae7207d4699b742aa18b7304, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0

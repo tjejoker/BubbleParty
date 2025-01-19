@@ -26,6 +26,9 @@ public class Player : MonoBehaviour
     private Vector2 movementInput;
     
     public PlayerUI playerUI;
+    private Vector2 _strikeVelocity;
+    public float strikeFactor = 100;
+    public float reduceFactor = 0.3f;
 
     // 移动范围限制参数
     private float minX = -60f; // X轴最小值
@@ -125,8 +128,10 @@ public class Player : MonoBehaviour
 
     private void Movement()
     {
-        if(!inIce)
+        if (!inIce)
+        {
             _velocity = movementInput * speed;
+        }
         else
         {
             _velocity += movementInput * (Time.deltaTime * speed);
@@ -135,14 +140,24 @@ public class Player : MonoBehaviour
         }
         
         // 计算新位置
-        Vector2 newPosition = rb.position + _velocity * Time.deltaTime;
-
+        // Vector2 newPosition = rb.position + _velocity * Time.deltaTime;
+        
+        _strikeVelocity = Vector2.Lerp(_strikeVelocity, Vector2.zero, reduceFactor);
+        if(_strikeVelocity.magnitude < 0.1f)
+            _strikeVelocity = Vector2.zero;
+        
         // 限制新位置在矩形区域内
-        newPosition.x = Mathf.Clamp(newPosition.x, minX, maxX);
-        newPosition.y = Mathf.Clamp(newPosition.y, minY, maxY);
+        //newPosition.x = Mathf.Clamp(newPosition.x, minX, maxX);
+        //newPosition.y = Mathf.Clamp(newPosition.y, minY, maxY);
 
         // 应用新位置
-        rb.MovePosition(newPosition);
+        rb.velocity = _velocity + _strikeVelocity;
+        // rb.MovePosition(newPosition);
+    }
+    
+    public void AddStrikeForce(Vector2 force)
+    {
+        _strikeVelocity += force * strikeFactor;
     }
 
     private void Update()

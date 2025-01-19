@@ -42,7 +42,7 @@ public class FireBullet : BulletBase<FireBullet>
         {
             Player player = other.GetComponent<Player>();
             player.hp -= 2;
-            Explosion.Create(player.transform.position, player.bubbleDeBuff * 0.3f);
+            Explosion.Create(player.transform.position, player.bubbleDeBuff * 0.5f);
             Release();
         }
     }
