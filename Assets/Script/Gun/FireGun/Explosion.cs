@@ -11,12 +11,6 @@ public class Explosion : MonoBehaviour
     private static BufferPool<Explosion> Pool
         => _pool ??= new BufferPool<Explosion>(Resources.Load<GameObject>($"Explosion"));
 
-
-<<<<<<< HEAD
-    public float factor = 10f;
-=======
-    //public float factor = 10f;
->>>>>>> 334d9887444369425df4216a9665d084a0d69208
     private float _size;
 
     private void OnEnable()
@@ -27,19 +21,14 @@ public class Explosion : MonoBehaviour
     public static void Create(Vector3 pos, float size)
     {
         var ex = Pool.Create();
-<<<<<<< HEAD
         ex.transform.position = new Vector3(pos.x, pos.y, 0);;
         ex.transform.localScale = Vector3.one * size;
-=======
-        ex.transform.position = pos;
-        ex.transform.localScale = Vector3.one * size * 5f;
->>>>>>> 334d9887444369425df4216a9665d084a0d69208
+
 
         ex._size = size;
 
         // TODO: 播放音效
-<<<<<<< HEAD
-        AudioManager.Instance.PlayEffect(ResSvc.Instance.GetAudioClip("结冰/结冰"));
+        AudioManager.Instance.PlayEffect(ResSvc.Instance.GetAudioClip("爆炸/爆炸"));
         // TODO: 播放特效
 
         // TODO: 代替碰撞检测
@@ -105,64 +94,25 @@ public class Explosion : MonoBehaviour
 
 
     private void OnTriggerEnter2D(Collider2D other)
-=======
-
-        // TODO: 播放特效
-
-        // TODO: 代替碰撞检测
-        var range = size * 1.5f;
-        var results = new Collider2D[16];
-        var s = Physics2D.OverlapCircleNonAlloc(ex.transform.position, range, results);
-        for (var i = 0; i < s; i++)
-        {
-            ex.CheckCollider(results[i]);
-        }
-    }
-
-
-    private void CheckCollider(Collider2D other)
->>>>>>> 334d9887444369425df4216a9665d084a0d69208
     {
-        if(other.gameObject == gameObject) 
-            return;
-
-        var max = _size * 2;
-        var distance = Vector2.Distance(other.transform.position, transform.position);
-        var orientation = (other.transform.position - transform.position).normalized;
-        var distanceFactor = distance / max;
-
+        
         if (other.CompareTag("Player"))
         {
             var player = other.GetComponent<Player>();
-<<<<<<< HEAD
-            player.hp -= _size  * 0.1f;
+            player.hp -= _size * 0.3f;
             if (player.bubbleDeBuff > 0.5f)
             {
-                float buff =  player.bubbleDeBuff;
+                Create(player.transform.position, player.bubbleDeBuff);
                 player.bubbleDeBuff = 0;
-                Create(player.transform.position, buff);
-                
-=======
-            // 根据 距离 and 大小 造成伤害
-            const float damageFactor = 30f;
-
-            player.hp -= damageFactor * distanceFactor;
-//            player.AddStrikeForce(orientation * _size * distanceFactor);
-
-            // 玩家身上的爆炸
-            if (player.bubbleDeBuff > 0.5f)
-            {
-                // 防止递归
-                var value = player.bubbleDeBuff;
-                player.bubbleDeBuff = 0;
-                Create(player.transform.position, value);
->>>>>>> 334d9887444369425df4216a9665d084a0d69208
             }
         }
-
-        if (other.CompareTag("Bubble") && other.gameObject.activeSelf)
+        
+        if (other.CompareTag("Bubble"))
         {
             var bubble = other.GetComponent<Bubble>();
+            if(bubble.IsDone())
+                return;
+            
             bubble.Release();
             // 爆炸预制体
             Create(bubble.transform.position, bubble.size * 1.3f);
@@ -172,6 +122,7 @@ public class Explosion : MonoBehaviour
         {
             var ice = other.GetComponent<Ice>();
             ice.Size -= _size * 0.3f;
+            
         }
     
         if (other.CompareTag("Rock"))
@@ -180,47 +131,4 @@ public class Explosion : MonoBehaviour
             rock.Hp -= _size * 0.5f;
         }
     }
-<<<<<<< HEAD
-=======
-
-
-    // private void OnTriggerEnter2D(Collider2D other)
-    // {
-    //     
-    //     if (other.CompareTag("Player"))
-    //     {
-    //         var player = other.GetComponent<Player>();
-    //         player.hp -= _size * 0.1f;
-    //         if (player.bubbleDeBuff > 0.5f)
-    //         {
-    //             Create(player.transform.position, player.bubbleDeBuff);
-    //             player.bubbleDeBuff = 0;
-    //         }
-    //     }
-    //     
-    //     if (other.CompareTag("Bubble"))
-    //     {
-    //         var bubble = other.GetComponent<Bubble>();
-    //         if(bubble.IsDone())
-    //             return;
-    //         
-    //         bubble.Release();
-    //         // 爆炸预制体
-    //         Create(bubble.transform.position, bubble.size * 1.3f);
-    //     }
-    //
-    //     if (other.CompareTag("Ice"))
-    //     {
-    //         var ice = other.GetComponent<Ice>();
-    //         ice.Size -= _size * 0.3f;
-    //         
-    //     }
-    //
-    //     if (other.CompareTag("Rock"))
-    //     {
-    //         var rock = other.GetComponent<Rock>();
-    //         rock.Hp -= _size * 0.5f;
-    //     }
-    // }
->>>>>>> 334d9887444369425df4216a9665d084a0d69208
 }

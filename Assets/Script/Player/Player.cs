@@ -60,14 +60,7 @@ public class Player : MonoBehaviour
 
     public Image bubbleDeBuffImg;
     public bool isReady;
-
-    private Vector2 _strikeVelocity;
-    public float strikeFactor = 100;
-    public float reduceFactor = 0.3f;
-
     private readonly Dictionary<string, DeBuff> _deBuffs = new();
-    
-
     
     private void Awake()
     {
@@ -166,11 +159,6 @@ public class Player : MonoBehaviour
         rb.velocity = _velocity + _strikeVelocity;
         // rb.MovePosition(newPosition);
     }
-<<<<<<< HEAD
-    
-=======
-
->>>>>>> 334d9887444369425df4216a9665d084a0d69208
     public void AddStrikeForce(Vector2 force)
     {
         _strikeVelocity += force * strikeFactor;
