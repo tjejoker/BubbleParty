@@ -12,19 +12,19 @@ public class Explosion : MonoBehaviour
         => _pool ??= new BufferPool<Explosion>(Resources.Load<GameObject>($"Explosion"));
 
 
-    public float factor = 10f;
+    //public float factor = 10f;
     private float _size;
 
     private void OnEnable()
     {
-        TimerInterval.Create(0.05f, () => { Pool.Destroy(this); });
+        TimerInterval.Create(0.5f, () => { Pool.Destroy(this); });
     }
 
     public static void Create(Vector3 pos, float size)
     {
         var ex = Pool.Create();
         ex.transform.position = pos;
-        ex.transform.localScale = Vector3.one * size;
+        ex.transform.localScale = Vector3.one * size * 5f;
 
         ex._size = size;
 
@@ -33,7 +33,7 @@ public class Explosion : MonoBehaviour
         // TODO: 播放特效
 
         // TODO: 代替碰撞检测
-        var range = size * ex.factor;
+        var range = size * 1.5f;
         var results = new Collider2D[16];
         var s = Physics2D.OverlapCircleNonAlloc(ex.transform.position, range, results);
         for (var i = 0; i < s; i++)
@@ -48,7 +48,7 @@ public class Explosion : MonoBehaviour
         if(other.gameObject == gameObject) 
             return;
 
-        var max = _size * factor * 2;
+        var max = _size * 2;
         var distance = Vector2.Distance(other.transform.position, transform.position);
         var orientation = (other.transform.position - transform.position).normalized;
         var distanceFactor = distance / max;
@@ -59,8 +59,8 @@ public class Explosion : MonoBehaviour
             // 根据 距离 and 大小 造成伤害
             const float damageFactor = 30f;
 
-            player.hp -= _size * damageFactor * distanceFactor;
-            player.AddStrikeForce(orientation * _size * distanceFactor);
+            player.hp -= damageFactor * distanceFactor;
+//            player.AddStrikeForce(orientation * _size * distanceFactor);
 
             // 玩家身上的爆炸
             if (player.bubbleDeBuff > 0.5f)

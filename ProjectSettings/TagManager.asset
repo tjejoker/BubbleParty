@@ -3,19 +3,7 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - Ice
-<<<<<<< HEAD
-  - Rock
-  - Erosion
-  - Explosion
-  - Undefined
-=======
-  - Erosion
-  - Explosion
-  - Rock
->>>>>>> d02032a9134b2df3d5c312d27fc41bea50100df6
-  - Bubble
+  tags: []
   layers:
   - Default
   - TransparentFX
@@ -52,10 +40,4 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
-    locked: 0
-  - name: Ground Bottom
-    uniqueID: 2107013187
-    locked: 0
-  - name: Instance
-    uniqueID: 2163666337
     locked: 0

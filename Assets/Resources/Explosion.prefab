@@ -11,10 +11,7 @@ GameObject:
   - component: {fileID: 3905692818082670662}
   - component: {fileID: 1512903996095381348}
   - component: {fileID: 1901736716459312869}
-<<<<<<< HEAD
   - component: {fileID: 5162238270046528454}
-=======
->>>>>>> d02032a9134b2df3d5c312d27fc41bea50100df6
   m_Layer: 0
   m_Name: Explosion
   m_TagString: Explosion
@@ -102,7 +99,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   factor: 10
-<<<<<<< HEAD
 --- !u!95 &5162238270046528454
 Animator:
   serializedVersion: 5
@@ -124,5 +120,3 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
-=======
->>>>>>> d02032a9134b2df3d5c312d27fc41bea50100df6
